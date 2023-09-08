@@ -10,9 +10,7 @@ const Home: NextPage = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Header />
-			<main>
-				<h1>NEXTFLIX</h1>
-			</main>
+			<main></main>
 		</div>
 	);
 };
