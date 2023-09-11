@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss';
-
 const config: Config = {
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -7,8 +6,12 @@ const config: Config = {
 		'./app/**/*.{js,ts,jsx,tsx,mdx}',
 	],
 	theme: {
-		extend: {},
+		extend: {
+			backgroundImage: {
+				gradient1: 'linear-gradient(to bottom, rgba(20,20,20,0), rgba(20,20,20,1))',
+			},
+		},
 	},
-	plugins: [],
+	plugins: [require('tailwind-scrollbar'), require('tailwind-scrollbar-hide')],
 };
 export default config;

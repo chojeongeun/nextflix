@@ -5,6 +5,7 @@ import requests from '@/utils/request';
 import Image from 'next/image';
 import { Movie } from '@/types';
 import Banner from '@/components/Banner';
+import Row from '@/components/Row';
 
 interface Props {
 	original: Movie[];
@@ -20,7 +21,7 @@ interface Props {
 //Generic을 활용해서 Props타입의 인터페이스를 직접 변수로 호출할때 설정
 const Home: NextPage<Props> = ({ original, top, sf, drama, fantasy, comedy, action }: Props) => {
 	return (
-		<div className='relatvie h-screen bg-gradient-to-b from-[#333] to=[#141414]'>
+		<div className='relatvie h-screen '>
 			<Head>
 				<title>NEXTFLIX</title>
 				<link rel='icon' href='/favicon.ico' />
@@ -28,8 +29,12 @@ const Home: NextPage<Props> = ({ original, top, sf, drama, fantasy, comedy, acti
 
 			<Header />
 
-			<main className='relative px-4 pb-24 lg:px-16 lg:space-y-24'>
+			<main className='relative lg:space-y-24'>
 				<Banner original={original} />
+
+				<section>
+					<Row movies={top} title={'Top Rated'} />
+				</section>
 			</main>
 		</div>
 	);
