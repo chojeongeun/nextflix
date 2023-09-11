@@ -8,7 +8,10 @@ interface Props {
 function Banner({ original }: Props) {
 	const [Movie, setMovie] = useState<Movie | null>(null);
 
-	useEffect(() => {});
+	useEffect(() => {
+		const randomNum = Math.floor(Math.random() * original.length);
+		setMovie(original[randomNum]);
+	}, [original]);
 	return <div>Banner</div>;
 }
 
