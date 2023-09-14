@@ -14,13 +14,12 @@ function List({ movies }: Props) {
 	const handleClick = (direction: string) => {
 		if (listFrame.current) {
 			const { scrollLeft, clientWidth } = listFrame.current;
-			console.log('scrollLeft', scrollLeft);
-			console.log('clientWidth', clientWidth);
-			//좌우버튼 클릭시 인수로 들어오는 방향에 따라 가로축으로 이동할 타겟 위치값을 구해서 scrollTo 이동처리
+			//좌우버튼 클릭시 인수로 들어오는 방향에 따라 가로축으로 이동할 타겟 위치값을 구해서 scrollTo이동처리
 			const targetPos = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
 			listFrame.current.scrollTo({ left: targetPos, behavior: 'smooth' });
 		}
 	};
+
 	return (
 		<>
 			<ul

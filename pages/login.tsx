@@ -4,29 +4,35 @@ import logo from '@/public/img/logo.svg';
 import { useState } from 'react';
 //npm i react-hook-form
 import { useForm, SubmitHandler } from 'react-hook-form';
+import useAuth from '@/hooks/useAuth';
 
 interface Inputs {
 	email: string;
 	password: string;
 }
-
 function Login() {
+	console.log('login');
+	const { signIn, signUp } = useAuth();
 	const [Login, setLogin] = useState<boolean>(false);
 	const {
-		register, //원하는 input요소에 전개연산자로 등록해서 값 관리
-		handleSubmit, //submit이벤트 발생 시 register에 등록된 input값들의 인증처리 함수, 인증 완료시 처리할 추가작업의 함수를 콜백으로 등록가능
-		formState: { errors }, //인증 실패시 커스텀 에러메세지를 등록할 숭수 있는 객체
+		register,
+		handleSubmit,
+		formState: { errors },
 	} = useForm<Inputs>();
 
 	//handleSubmit함수이 인증처리 완료시 동기적으로 실행될 콜백함수 등록
 	//해당 콜백함수는 인증에 성공했을만 호출: 인수로 전달되는 값은 관리되고 있는 form의 value값
-	const join: SubmitHandler<Inputs> = ({ email, password }) => {
+	const join: SubmitHandler<Inputs> = async ({ email, password }) => {
 		if (Login) {
-			//Sign In 버튼 클릭시 처리할 구문
+			//Sign In 클릭시 처리할 구문
 			console.log('sign in 클릭');
+			//전역컨텍스트에서 로그인함수 가지고와서 호출
+			await signIn(email, password);
 		} else {
-			//Sign Up 버튼 클릭시 처리할 구문
+			//Sign up 클릭시 처리할 구문
 			console.log('sign up 클릭');
+			//전역컨텍스트에서 회원가입 함수 가져와서 호출
+			await signUp(email, password);
 		}
 	};
 
@@ -51,7 +57,7 @@ function Login() {
 				src={logo}
 				alt='logo'
 				className='absolute left-4 top-4 cursor-pointer md:left-10 md:top-6 z-10'
-				sizes='(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw'
+				sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 			/>
 
 			<form
@@ -72,7 +78,11 @@ function Login() {
 						type='password'
 						placeholder='Password'
 						className='input'
-						{...register('password', { required: true, pattern: /[a-zA-Z]+/, minLength: 4, maxLength: 20 })}
+						{...register('password', {
+							required: true,
+							minLength: 4,
+							maxLength: 20,
+						})}
 					/>
 					{errors.password && <span>Please enter a valid Password</span>}
 				</div>
