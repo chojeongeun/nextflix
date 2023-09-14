@@ -5,9 +5,12 @@ import requests from '@/utils/request';
 import { Movie } from '@/types';
 import Banner from '@/components/Banner';
 import Row from '@/components/Row';
+import Modal from '@/components/Modal';
+import { useRecoilValue } from 'recoil';
+import { modalState } from '@/recoil/globalAtom';
 //npm i recoil
 
-// props로 전달받는 data의 타입 지정
+//props로 전달받는 data의 타입 지정
 interface Props {
 	original: Movie[];
 	top: Movie[];
@@ -20,22 +23,20 @@ interface Props {
 }
 
 const Home: NextPage<Props> = (props: Props) => {
+	const showModal = useRecoilValue(modalState);
 	return (
 		<div className='relatvie h-screen '>
 			<Head>
 				<title>NEXTFLIX</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-
 			{/* 헤더 컴포넌트 (로그아웃 버튼 포함) */}
 			<Header />
-
 			<main className='relative'>
-				{/* 배너 컴포넌트에는 랜덤 데이터 전달 */}
+				{/* 배터컴포넌트에는 랜덤 데이터 전달 */}
 				<Banner original={props.random} />
-
 				<section>
-					{/* row컴포넌트는 props로 전달된 데이터 배열들을 반복처리 */}
+					{/* row컴포넌트 props전달된 데이터 배열들을 반복처리 */}
 					{Object.values(props)
 						//데이터 하나는 배열이 아니므로 해당 데이터 제외하고 반복처리
 						.filter((data) => data.length)
@@ -44,6 +45,7 @@ const Home: NextPage<Props> = (props: Props) => {
 						))}
 				</section>
 			</main>
+			{showModal && <Modal />}
 		</div>
 	);
 };
@@ -59,11 +61,10 @@ export const getServerSideProps = async () => {
 		fetch(requests.comedy).then((res) => res.json()),
 		fetch(requests.western).then((res) => res.json()),
 	]);
-
-	//fetching된 데이터 배열중에서 original데이터 배열만 랜덤으로 객체 정보 하나 분류
+	//fetching된 데이터 배열중에서 original데이터 배열만 랜덤으로 객체정보 하나 분류
 	const randomOrigin = original.results[Math.floor(Math.random() * original.results.length)];
 	return {
-		//페이지 컴포넌트에 prop으로 위의 데이터 전달
+		//페이지 컴포넌트의 prop로 위의 데이터 전달
 		props: {
 			original: original.results,
 			top_rated: top.results,
