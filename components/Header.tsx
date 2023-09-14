@@ -8,6 +8,7 @@ import useAuth from '@/hooks/useAuth';
 
 function Header() {
 	const [Scrolled, setScrolled] = useState(false);
+	// 커스텀훅으로부터 전역context에 있는 로그아웃 함수 가져옴
 	const { logout } = useAuth();
 
 	useEffect(() => {

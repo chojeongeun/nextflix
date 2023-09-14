@@ -14,10 +14,11 @@ function Login() {
 	console.log('login');
 	const { signIn, signUp } = useAuth();
 	const [Login, setLogin] = useState<boolean>(false);
+	// react-hook-form의 useForm을 이용해서 인증 처리
 	const {
-		register,
-		handleSubmit,
-		formState: { errors },
+		register, //input요소의 값을 실시간으로 담아주고 인증 처리
+		handleSubmit, //submit이벤트 발생시 동작되는 핸들러 함수
+		formState: { errors }, //인증 실패시 만들어지는 에러 객체
 	} = useForm<Inputs>();
 
 	//handleSubmit함수이 인증처리 완료시 동기적으로 실행될 콜백함수 등록
@@ -73,11 +74,14 @@ function Login() {
 						className='input'
 						{...register('email', { required: true, minLength: 7, maxLength: 20 })}
 					/>
+					{/* 인증에 성공하면 핸들러 함수에 등록된 join함수가 실행되면서 로그인, 회원가입 처리 */}
+					{/* 인증에 실패하면 join함수가 실행되지 않고 err객체에 직접 등록한 에러 메세지 출력 */}
 					{errors.email && <span>Please enter a valid Email</span>}
 					<input
 						type='password'
 						placeholder='Password'
 						className='input'
+						// 인증처리할 폼 요소를 register에 등록, 두번째 옵션 객체로 인증 로직 적용 가능 minLength, maxLength, regEx 처리 가능
 						{...register('password', {
 							required: true,
 							minLength: 4,
