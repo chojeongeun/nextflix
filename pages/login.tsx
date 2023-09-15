@@ -69,10 +69,14 @@ function Login() {
 
 				<div className='space-y-4'>
 					<input
-						type='email'
+						type='text'
 						placeholder='Email'
 						className='input'
-						{...register('email', { required: true, minLength: 7, maxLength: 20 })}
+						{...register('email', {
+							required: true,
+							pattern: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.([a-zA-Z]){2,4}$/,
+							//시작조건으로는 모든숫자,대소문자포함가능,중간에 -_허용 / 중간에 @무조건포함 /앞의 동일조건처리 / 중간에 무조건 .포함 / 문자값만 2개이상 2개이상일수 이후 4개문자까지 더 허용된 조건으로 끝나야됨
+						})}
 					/>
 					{/* 인증에 성공하면 핸들러 함수에 등록된 join함수가 실행되면서 로그인, 회원가입 처리 */}
 					{/* 인증에 실패하면 join함수가 실행되지 않고 err객체에 직접 등록한 에러 메세지 출력 */}
@@ -85,6 +89,7 @@ function Login() {
 						{...register('password', {
 							required: true,
 							pattern: /^(?=.*[a-zA-Z])(?=.*[!@#$%^&])(?=.*[0-9]).{5,20}$/,
+							//모든 대소문자를 무조건포함하고 그앞에 어떤값도 가능 / 원하는 특수문자 그룹지정해서 무조건포함하고 그앞에 어떤값도 가능 / 모든 숫자 무조건 포함하고 그앞에 어떤값도 가능 그뒤에도 . 어떤값 들어올수 있음 범위는 최소 5글자 그이후에 20글자까지 허용
 						})}
 					/>
 					{errors.password && <span>Please enter a valid Password</span>}
