@@ -84,8 +84,7 @@ function Login() {
 						// 인증처리할 폼 요소를 register에 등록, 두번째 옵션 객체로 인증 로직 적용 가능 minLength, maxLength, regEx 처리 가능
 						{...register('password', {
 							required: true,
-							minLength: 4,
-							maxLength: 20,
+							pattern: /^(?=.*[a-zA-Z])(?=.*[!@#$%^&])(?=.*[0-9]).{5,20}$/,
 						})}
 					/>
 					{errors.password && <span>Please enter a valid Password</span>}
